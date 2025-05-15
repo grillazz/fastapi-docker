@@ -58,6 +58,7 @@ COPY /dispatch-service/main.py app/main.py
 #COPY alembic/ app/alembic/
 #COPY logging-uvicorn.json /taxi/logging-uvicorn.json
 
+
 RUN python -V
 RUN python -Im site
 RUN python -Ic 'import uvicorn'

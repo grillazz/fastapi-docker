@@ -1,15 +1,20 @@
 name: taxi-zone
 services:
   dispatch-service:
+    user: root
     build:
       context: ./
       dockerfile: Dockerfile.dispatcher
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=sqlite:///./taxi_dispatch.db
+    command: bash -c "
+      uvicorn app.main:app
+      --host 0.0.0.0 --port 8000
+      --lifespan=on --use-colors --loop uvloop --http httptools
+      --reload --log-level debug
+      "
     volumes:
-      - dispatch-data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
 
   worker-service:
     build:
