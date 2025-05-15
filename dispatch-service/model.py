@@ -36,19 +36,19 @@ class Taxi(Base):
     y = Column(Integer)
     last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-class Trip(Base):
-    __tablename__ = "trips"
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(String, nullable=False)
-    taxi_id = Column(String, ForeignKey("taxis.taxi_id"))
-    start_x = Column(Integer, nullable=False)
-    start_y = Column(Integer, nullable=False)
-    end_x = Column(Integer, nullable=False)
-    end_y = Column(Integer, nullable=False)
-    status = Column(String, default=TripStatus.ASSIGNED.value)
-    created_at = Column(DateTime, default=func.now())
-    pickup_at = Column(DateTime, nullable=True)
-    completed_at = Column(DateTime, nullable=True)
-    wait_time = Column(Float, nullable=True)  # In minutes
-    travel_time = Column(Float, nullable=True)  # In minutes
+# class Trip(Base):
+#     __tablename__ = "trips"
+#
+#     id = Column(Integer, primary_key=True)
+#     user_id = Column(String, nullable=False)
+#     taxi_id = Column(String, ForeignKey("taxis.taxi_id"))
+#     start_x = Column(Integer, nullable=False)
+#     start_y = Column(Integer, nullable=False)
+#     end_x = Column(Integer, nullable=False)
+#     end_y = Column(Integer, nullable=False)
+#     status = Column(String, default=TripStatus.ASSIGNED.value)
+#     created_at = Column(DateTime, default=func.now())
+#     pickup_at = Column(DateTime, nullable=True)
+#     completed_at = Column(DateTime, nullable=True)
+#     wait_time = Column(Float, nullable=True)  # In minutes
+#     travel_time = Column(Float, nullable=True)  # In minutes

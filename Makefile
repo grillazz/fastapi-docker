@@ -9,3 +9,8 @@ docker-build:	## Build project with compose
 .PHONY: docker-up
 docker-up:	## Run project with compose
 	docker compose up --remove-orphans
+
+.PHONY: docker-create-db-migration
+docker-create-db-migration:  ## Create new alembic database migration aka database revision.
+	docker compose up -d db | true
+	docker compose run --no-deps dispatch-service alembic revision --autogenerate -m "$(msg)"
