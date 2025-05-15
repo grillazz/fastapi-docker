@@ -8,4 +8,5 @@ dependencies = [
     "docker>=7.1.0",
     "fastapi[all]>=0.115.12",
     "tenacity>=9.1.2",
+    "whenever>=0.8.0",
 ]

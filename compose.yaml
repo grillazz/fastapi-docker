@@ -17,8 +17,9 @@ services:
       dockerfile: Dockerfile.worker
     depends_on:
       - dispatch-service
+    command: python3 main.py
     deploy:
-      replicas: ${NUM_TAXIS:-5}
+      replicas: 5
 
 volumes:
   dispatch-data: {}

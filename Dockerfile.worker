@@ -50,8 +50,4 @@ COPY --from=build --chown=taxi:taxi /taxi /taxi
 
 USER taxi
 WORKDIR /taxi
-COPY /worker-service/main.py app/main.py
-
-RUN python -V
-RUN python -Im site
-RUN python -Ic 'import uvicorn'
+COPY /worker-service/main.py main.py
