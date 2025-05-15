@@ -14,3 +14,7 @@ docker-up:	## Run project with compose
 docker-create-db-migration:  ## Create new alembic database migration aka database revision.
 	docker compose up -d db | true
 	docker compose run --no-deps dispatch-service alembic revision --autogenerate -m "$(msg)"
+
+.PHONY: docker-apply-db-migrations
+docker-apply-db-migrations: ## apply alembic migrations to database/schema
+	docker compose run --rm dispatch-service alembic upgrade head

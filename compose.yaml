@@ -31,7 +31,7 @@ services:
       - dispatch-service
     command: python3 main.py
     deploy:
-      replicas: 5
+      replicas: 20
 
   db:
     build:

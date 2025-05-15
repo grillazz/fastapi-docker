@@ -2,7 +2,7 @@ from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from config import settings as global_settings
+from .config import settings as global_settings
 
 
 engine = create_async_engine(
@@ -22,5 +22,4 @@ async def get_db() -> AsyncGenerator:
         try:
             yield session
         except Exception as e:
-            print("dupa")
             raise e
