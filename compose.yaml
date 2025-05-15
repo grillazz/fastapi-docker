@@ -1,0 +1,24 @@
+name: taxi-zone
+services:
+  dispatch-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dispatcher
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./taxi_dispatch.db
+    volumes:
+      - dispatch-data:/app/data
+
+  worker-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.worker
+    depends_on:
+      - dispatch-service
+    deploy:
+      replicas: ${NUM_TAXIS:-5}
+
+volumes:
+  dispatch-data: {}
