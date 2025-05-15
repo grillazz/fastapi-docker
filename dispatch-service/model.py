@@ -21,11 +21,13 @@ class TaxiStatus(enum.Enum):
     AVAILABLE = "available"
     BUSY = "busy"
 
+
 class TripStatus(enum.Enum):
     ASSIGNED = "assigned"
     PICKING_UP = "picking_up"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
+
 
 class Taxi(Base):
     __tablename__ = "taxis"
@@ -35,6 +37,7 @@ class Taxi(Base):
     x = Column(Integer)
     y = Column(Integer)
     last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
 
 # class Trip(Base):
 #     __tablename__ = "trips"
