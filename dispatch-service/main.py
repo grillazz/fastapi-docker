@@ -1,24 +1,27 @@
 import random
 from contextlib import asynccontextmanager
 import logging
-from fastapi import FastAPI, Depends
+
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from fastapi import FastAPI
 import docker
 from .database import get_db
 from .model import Taxi
+from .api import router as api_router
 
 logging.basicConfig(level=logging.INFO)
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    _cli = docker.DockerClient(base_url="unix:///var/run/docker.sock")
+    _app.docker_cli = docker.DockerClient(base_url="unix:///var/run/docker.sock")
 
     _app.db_session = await anext(get_db())
 
     try:
         _containers = [
             container.name
-            for container in _cli.containers.list(
+            for container in _app.docker_cli.containers.list(
                 filters={"ancestor": "taxi-zone-worker-service"}, all=True
             )
         ]
@@ -26,18 +29,23 @@ async def lifespan(_app: FastAPI):
             Taxi(taxi_id=_container, x=random.randint(0, 100), y=random.randint(0, 100))
             for _container in _containers
         ]
-        # TODO: sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError)
-        #  <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "taxis_pkey"
-        _app.db_session.add_all(_taxis)
-        await _app.db_session.commit()
+
+        try:
+            _app.db_session.add_all(_taxis)
+            await _app.db_session.commit()
+        except IntegrityError as ex:
+            await _app.db_session.rollback()
+            logging.warning(f"Skipping taxi insertion due to integrity error: {ex}")
 
         logging.info(f"db_session: {_app.db_session}")
         logging.info(f"containers: {_containers}")
         yield
     finally:
-        pass
+        await _app.db_session.close()
+        _app.docker_cli.close()
+
 
 
 app = FastAPI(title="Taxi Zone API", version="0.1.0", lifespan=lifespan)
 
-# app.include_router()
+app.include_router(api_router, prefix="/api/v1", tags=["v1"])
