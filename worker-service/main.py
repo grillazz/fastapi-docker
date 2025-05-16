@@ -18,6 +18,7 @@ async def worker_task():
     # await anyio.sleep(2.0)
     # stop drive post to stop router and set taxi available and update position fo the taxi with x_end and y_end
 
+
 async def main():
     logging.info("Starting taxi worker service...")
     await worker_task()

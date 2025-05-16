@@ -1,4 +1,14 @@
-from sqlalchemy import Column, BigInteger, Integer, String, Float, DateTime, ForeignKey, Enum, func
+from sqlalchemy import (
+    Column,
+    BigInteger,
+    Integer,
+    String,
+    Float,
+    DateTime,
+    ForeignKey,
+    Enum,
+    func,
+)
 import enum
 from datetime import datetime
 
@@ -7,6 +17,7 @@ from typing import Any
 from sqlalchemy.orm import DeclarativeBase, declared_attr
 from sqlalchemy import func
 from sqlalchemy.future import select
+
 
 class Base(DeclarativeBase):
     id: Any
@@ -38,7 +49,6 @@ class Taxi(Base):
     x = Column(Integer)
     y = Column(Integer)
     last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
 
     # TODO: this can iterate over all taxis and find the closest one which is available
     @classmethod

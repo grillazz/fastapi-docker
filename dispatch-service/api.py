@@ -9,27 +9,28 @@ router = APIRouter()
 
 @router.post("/trips", status_code=201)
 async def create_trip(
-        request: Request,
-        trip_request: TripRequest,
-        db: AsyncSession = Depends(get_db)
+    request: Request, trip_request: TripRequest, db: AsyncSession = Depends(get_db)
 ):
     closest_taxi = await Taxi.find_closest_and_lock_it(
-        db,
-        trip_request.start_x,
-        trip_request.start_y
+        db, trip_request.start_x, trip_request.start_y
     )
     if not closest_taxi:
         raise HTTPException(status_code=404, detail="No available taxis found")
 
     new_trip = Trip(
-        id=hash(trip_request.user_id+str(trip_request.start_x)+str(trip_request.start_y)+closest_taxi.taxi_id),
+        id=hash(
+            trip_request.user_id
+            + str(trip_request.start_x)
+            + str(trip_request.start_y)
+            + closest_taxi.taxi_id
+        ),
         user_id=trip_request.user_id,
         taxi_id=closest_taxi.taxi_id,
         start_x=trip_request.start_x,
         start_y=trip_request.start_y,
         end_x=trip_request.end_x,
         end_y=trip_request.end_y,
-        status=TripStatus.ASSIGNED.value
+        status=TripStatus.ASSIGNED.value,
     )
 
     db.add(new_trip)

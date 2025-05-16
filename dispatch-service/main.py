@@ -45,7 +45,6 @@ async def lifespan(_app: FastAPI):
         _app.docker_cli.close()
 
 
-
 app = FastAPI(title="Taxi Zone API", version="0.1.0", lifespan=lifespan)
 
 app.include_router(api_router, prefix="/api/v1", tags=["v1"])
