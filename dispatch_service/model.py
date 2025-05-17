@@ -82,8 +82,9 @@ class Trip(Base):
 
     @classmethod
     async def get_trip_by_taxi_id(cls, async_session, taxi_id: str):
-        stmt = select(cls).where(cls.taxi_id == taxi_id, cls.status == TripStatus.ASSIGNED.value)
+        stmt = select(cls).where(
+            cls.taxi_id == taxi_id, cls.status == TripStatus.ASSIGNED.value
+        )
         result = await async_session.execute(stmt)
         trip = result.scalars().first()
         return trip
-
