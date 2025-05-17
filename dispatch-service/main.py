@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 import logging
 
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy import text
 from fastapi import FastAPI
 import docker
 from .database import get_db
@@ -20,7 +21,7 @@ async def lifespan(_app: FastAPI):
 
     try:
         _containers = [
-            container.name
+            container.short_id
             for container in _app.docker_cli.containers.list(
                 filters={"ancestor": "taxi-zone-worker-service"}, all=True
             )
@@ -31,6 +32,8 @@ async def lifespan(_app: FastAPI):
         ]
 
         try:
+            # truncate the taxis table
+            await _app.db_session.execute(text('TRUNCATE taxis CASCADE'))
             _app.db_session.add_all(_taxis)
             await _app.db_session.commit()
         except IntegrityError as ex:
@@ -41,7 +44,7 @@ async def lifespan(_app: FastAPI):
         logging.info(f"containers: {_containers}")
         yield
     finally:
-        await _app.db_session.close()
+        _app.db_session.close()
         _app.docker_cli.close()
 
 

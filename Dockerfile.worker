@@ -51,4 +51,3 @@ COPY --from=build --chown=taxi:taxi /taxi /taxi
 USER taxi
 WORKDIR /taxi
 COPY /worker-service/main.py main.py
-RUN python3 main.py

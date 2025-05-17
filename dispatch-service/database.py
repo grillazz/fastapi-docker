@@ -22,5 +22,6 @@ async def get_db() -> AsyncGenerator:
     async with AsyncSessionFactory() as session:
         try:
             yield session
+            await session.commit()
         except Exception as e:
             raise e
