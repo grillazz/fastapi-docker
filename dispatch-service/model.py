@@ -83,7 +83,6 @@ class Trip(Base):
     end_y = Column(Integer, nullable=False)
     status = Column(String, default=TripStatus.ASSIGNED.value)
 
-
     @classmethod
     async def get_trip_by_taxi_id(cls, async_session, taxi_id: str):
         stmt = select(cls).where(cls.taxi_id == taxi_id)

@@ -50,21 +50,19 @@ async def create_trip(
 
 @router.get("/trips/{taxi_id}", status_code=200)
 async def get_trip(taxi_id: str, db: AsyncSession = Depends(get_db)):
-
-        trip: Trip = await Trip.get_trip_by_taxi_id(db, taxi_id)
-        if trip:
-            return {
-                "trip_id": trip.id,
-                "user_id": trip.user_id,
-                "taxi_id": trip.taxi_id,
-                "start_x": trip.start_x,
-                "start_y": trip.start_y,
-                "end_x": trip.end_x,
-                "end_y": trip.end_y,
-                "status": trip.status,
+    trip: Trip = await Trip.get_trip_by_taxi_id(db, taxi_id)
+    if trip:
+        return {
+            "trip_id": trip.id,
+            "user_id": trip.user_id,
+            "taxi_id": trip.taxi_id,
+            "start_x": trip.start_x,
+            "start_y": trip.start_y,
+            "end_x": trip.end_x,
+            "end_y": trip.end_y,
+            "status": trip.status,
         }
-        return None
-
+    return None
 
 
 @router.patch("/trips/{trip_id}", status_code=200)

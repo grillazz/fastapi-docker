@@ -33,7 +33,7 @@ async def lifespan(_app: FastAPI):
 
         try:
             # truncate the taxis table
-            await _app.db_session.execute(text('TRUNCATE taxis CASCADE'))
+            await _app.db_session.execute(text("TRUNCATE taxis CASCADE"))
             _app.db_session.add_all(_taxis)
             await _app.db_session.commit()
         except IntegrityError as ex:
