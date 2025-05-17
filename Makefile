@@ -18,3 +18,7 @@ docker-create-db-migration:  ## Create new alembic database migration aka databa
 .PHONY: docker-apply-db-migrations
 docker-apply-db-migrations: ## apply alembic migrations to database/schema
 	docker compose run --rm dispatch-service alembic upgrade head
+
+.PHONY: docker-test
+docker-test:	## Run project tests
+	docker compose -f compose.yaml -f test-compose.yaml run --rm dispatch-service pytest tests -vv

@@ -3,11 +3,8 @@ from sqlalchemy import (
     BigInteger,
     Integer,
     String,
-    Float,
     DateTime,
     ForeignKey,
-    Enum,
-    func,
 )
 import enum
 from datetime import datetime
@@ -53,7 +50,7 @@ class Taxi(Base):
     # TODO: this can iterate over all taxis and find the closest one which is available
     @classmethod
     async def find_closest_and_lock_it(cls, async_session, x: int, y: int):
-        distance = func.sqrt(func.pow(cls.x - x, 2) + func.pow(cls.y - y, 2))
+        distance = func.abs(cls.x - x) + func.abs(cls.y - y)
         stmt = (
             select(cls)
             .where(cls.status == TaxiStatus.AVAILABLE.value)
@@ -85,7 +82,8 @@ class Trip(Base):
 
     @classmethod
     async def get_trip_by_taxi_id(cls, async_session, taxi_id: str):
-        stmt = select(cls).where(cls.taxi_id == taxi_id)
+        stmt = select(cls).where(cls.taxi_id == taxi_id, cls.status == TripStatus.ASSIGNED.value)
         result = await async_session.execute(stmt)
         trip = result.scalars().first()
         return trip
+

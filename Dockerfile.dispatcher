@@ -50,9 +50,11 @@ COPY --from=build --chown=taxi:taxi /taxi /taxi
 
 USER taxi
 WORKDIR /taxi
-COPY /dispatch-service/ app/
+COPY /dispatch_service/ dispatch_service/
+COPY /tests/ tests/
 COPY alembic.ini alembic.ini
 COPY /alembic/ alembic/
+COPY pytest.ini pytest.ini
 
 RUN python -V
 RUN python -Im site

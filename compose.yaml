@@ -10,14 +10,14 @@ services:
     ports:
       - "8000:8000"
     command: bash -c "
-      uvicorn app.main:app
+      uvicorn dispatch_service.main:app
       --host 0.0.0.0 --port 8000
       --lifespan=on --use-colors --loop uvloop --http httptools
       --reload --log-level debug
       "
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./dispatch-service:/taxi/app
+      - ./dispatch-service:/taxi/dispatch-service
       - ./alembic:/taxi/alembic
     depends_on:
       - db
