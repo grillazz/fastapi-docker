@@ -16,12 +16,3 @@ dependencies = [
     "tenacity>=9.1.2",
     "whenever>=0.8.0",
 ]
-
-[tool.pytest.ini_options]
-addopts = "-v --doctest-modules --doctest-glob=*.md --ignore=alembic"
-asyncio_mode = "strict"
-env_files = [".env"]
-testpaths = [
-    "tests",
-    "tests/testdata",
-]
