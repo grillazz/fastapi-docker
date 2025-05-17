@@ -1,9 +1,0 @@
-services:
-  dispatch-service:
-    environment:
-      - POSTGRES_DB=testdb
-
-  db:
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=testdb

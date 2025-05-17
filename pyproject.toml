@@ -9,6 +9,7 @@ dependencies = [
     "asyncpg>=0.30.0",
     "docker>=7.1.0",
     "fastapi[all]>=0.115.12",
+    "greenlet>=3.2.2",
     "httpx>=0.28.1",
     "pytest>=8.3.5",
     "ruff>=0.11.10",
@@ -16,3 +17,13 @@ dependencies = [
     "tenacity>=9.1.2",
     "whenever>=0.8.0",
 ]
+
+[tool.pytest.ini_options]
+addopts = "-v --doctest-modules --doctest-glob=*.md --ignore=alembic"
+asyncio_mode = "strict"
+env_files = [".env"]
+
+[tool.coverage.run]
+branch = true
+concurrency = ["greenlet"]
+omit = ["*/_tests/*", "*/tests/*"]

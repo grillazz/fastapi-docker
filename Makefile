@@ -20,5 +20,5 @@ docker-apply-db-migrations: ## apply alembic migrations to database/schema
 	docker compose run --rm dispatch-service alembic upgrade head
 
 .PHONY: docker-test
-docker-test:	## Run project tests
-	docker compose -f compose.yaml -f test-compose.yaml run --rm dispatch-service pytest tests -vv
+docker-test: ## Run project tests
+	docker compose -f compose.yaml run dispatch-service pytest tests -vv
