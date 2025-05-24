@@ -1,3 +1,19 @@
+# Autonomous Taxi Zone Microservices
+
+This project implements a microservices-based taxi dispatch system using 
+Python, FastAPI, SQLAlchemy, and Docker. 
+It consists of a dispatch service that manages taxi assignments and trip statuses,
+and worker services that simulate taxi operations.
+The system supports dynamic taxi allocation, trip lifecycle management,
+and real-time status updates via RESTful APIs.
+
+Main features:
+- FastAPI-based dispatch API for trip creation and status updates
+- Asynchronous worker services representing taxis
+- Docker integration for managing taxi worker containers
+- SQL database for persistent storage of taxis and trips
+
+
 ### 1. install uv
 
 ### 2. uv sync
