@@ -1,4 +1,4 @@
-# Autonomous Taxi Zone Microservices
+# Autonomous Taxi Zone Services
 
 This project implements a microservices-based taxi dispatch system using 
 Python, FastAPI, SQLAlchemy, and Docker. 
